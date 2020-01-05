@@ -1,0 +1,9 @@
+{
+	"files.exclude": {
+		"C:/git/unreal/supreme-bassoon/.git": true,
+		"C:/git/unreal/supreme-bassoon/.vscode": true,
+		"C:/git/unreal/supreme-bassoon/Content": true,
+		"C:/git/unreal/supreme-bassoon/Intermediate": true,
+		"C:/git/unreal/supreme-bassoon/Saved": true
+	}
+}
