@@ -2,26 +2,29 @@
 
 
 #include "FPSLaunchPad.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 AFPSLaunchPad::AFPSLaunchPad()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+ 	BaseMeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BaseMeshComp"));
+	RootComponent = BaseMeshComp;
 
+	ArrowMeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ArrowMeshComp"));
+	ArrowMeshComp->SetupAttachment(BaseMeshComp);
+
+	BoxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComp"));
+	BoxComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	BoxComp->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	BoxComp->SetCollisionResponseToChannel(ECC_PhysicsBody, ECollisionResponse::ECR_Overlap);
+	BoxComp->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+	BoxComp->SetupAttachment(BaseMeshComp);
+
+	BoxComp->OnComponentBeginOverlap.AddDynamic(this, &AFPSLaunchPad::HandleOverlap);
 }
 
-// Called when the game starts or when spawned
-void AFPSLaunchPad::BeginPlay()
+void AFPSLaunchPad::HandleOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void AFPSLaunchPad::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
+	UE_LOG(LogTemp, Warning, TEXT("Overlapped with Launch pad!"));
 }
 
