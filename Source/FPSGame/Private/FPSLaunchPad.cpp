@@ -3,6 +3,7 @@
 
 #include "FPSLaunchPad.h"
 #include "Components/BoxComponent.h"
+#include "FPSCharacter.h"
 
 // Sets default values
 AFPSLaunchPad::AFPSLaunchPad()
@@ -26,5 +27,17 @@ AFPSLaunchPad::AFPSLaunchPad()
 void AFPSLaunchPad::HandleOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Overlapped with Launch pad!"));
+	AFPSCharacter* PlayerPawn = Cast<AFPSCharacter>(OtherActor);
+	FVector LaunchVector = GetActorForwardVector() * 5000.f;
+	if (PlayerPawn)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("This is the player!"));
+		PlayerPawn->LaunchCharacter(LaunchVector, true, true);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("This is a cube!"));
+	}
+
 }
 
